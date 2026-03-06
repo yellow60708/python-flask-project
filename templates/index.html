@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>顧客管理系統</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <h3>顧客資料管理</h3>
+
+        <a href="/search" class="btn btn-outline-primary">
+            進入查詢頁
+        </a>
+
+    </div>
+
+    <!-- ⭐ 新增資料區 -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h5 class="mb-3">新增顧客資料</h5>
+
+            <form action="/add_user" method="POST" class="row g-3">
+
+                <div class="col-md-2">
+                    <input name="lastname" class="form-control" placeholder="姓氏" required>
+                </div>
+
+                <div class="col-md-2">
+                    <label>
+                        <input type="radio" name="title" value="先生" checked>先生
+                    </label>
+
+                    <label class="ms-2">
+                        <input type="radio" name="title" value="小姐">小姐
+                    </label>
+                </div>
+
+                <div class="col-md-2">
+                    <input name="phonenumber" class="form-control" placeholder="電話" required>
+                </div>
+
+                <div class="col-md-2">
+                    <input name="shoe_count" type="number" class="form-control" placeholder="雙數" required>
+                </div>
+
+                <div class="col-md-2">
+                    <input name="item" class="form-control" placeholder="項目">
+                </div>
+
+                <div class="col-md-2">
+                    <input name="fee" type="number" step="0.01" class="form-control" placeholder="費用">
+                </div>
+
+                <div class="col-md-2">
+                    <input name="paid" type="number" step="0.01" class="form-control" placeholder="已付">
+                </div>
+
+                <div class="col-12 text-end">
+                    <button class="btn btn-primary">新增資料</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- ⭐ 最近資料 -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">最近新增資料</h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover text-center align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>電話</th>
+                            <th>雙數</th>
+                            <th>項目</th>
+                            <th>費用</th>
+                            <th>已付</th>
+                            <th>尚欠</th>
+                            <th>取件狀態</th>
+                            <th>黑名單</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for user in users %}
+
+                        <tr {% if user[8] == 1 %} style="background:#ffe6e6;" {% endif %}>
+
+                            <td>{{ user[0] }}</td>
+                            <td>{{ user[1] }}</td>
+                            <td>{{ user[2] }}</td>
+                            <td>{{ user[3] }}</td>
+                            <td>{{ user[4] }}</td>
+                            <td>{{ user[5] }}</td>
+                            <td>{{ user[6] }}</td>
+
+                            <td>
+                                {% if user[7] > 0 %}
+                                    <span class="text-danger fw-bold">{{ user[7] }}</span>
+                                {% else %}
+                                    <span class="text-success">已付清</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- ⭐ status -->
+                            <td>
+                                {% if user[9] == 'done' %}
+                                    <span class="badge bg-success">已取</span>
+                                {% else %}
+                                    <span class="badge bg-warning">未取</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- ⭐ blacklist -->
+                            <td>
+                                {% if user[8] == 1 %}
+                                    <span class="badge bg-danger">黑名單</span>
+                                {% else %}
+                                    <span class="badge bg-success">正常</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+
+                                <a href="{{ url_for('update_user_route', id=user[0]) }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    編輯
+                                </a>
+
+                                <a href="{{ url_for('toggle_blacklist', id=user[0]) }}"
+                                   class="btn btn-sm btn-warning">
+                                    黑名單
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

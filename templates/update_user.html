@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>更新顧客資料</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 24px;
+    transition: .3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+input:checked + .slider {
+    background: #4CAF50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+</style>
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h4 class="text-center mb-4">更新顧客資料</h4>
+
+                    <form method="POST" class="row g-3">
+
+                        <div class="col-12">
+                            <label class="form-label">姓名</label>
+                            <input type="text" name="name"
+                                   class="form-control"
+                                   value="{{ user[1] }}" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">電話</label>
+                            <input type="text" name="phonenumber"
+                                   class="form-control"
+                                   value="{{ user[2] }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">鞋子幾雙</label>
+                            <input type="number" name="shoe_count"
+                                   class="form-control"
+                                   value="{{ user[3] }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">項目</label>
+                            <input type="text" name="item"
+                                   class="form-control"
+                                   value="{{ user[4] }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">費用</label>
+                            <input type="number" step="0.01" name="fee"
+                                   class="form-control"
+                                   value="{{ user[5] }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">已付金額</label>
+                            <input type="number" step="0.01" name="paid"
+                                   class="form-control"
+                                   value="{{ user[6] }}" required>
+                        </div>
+
+                        <!-- ⭐ Status Toggle -->
+                        <div class="col-12">
+                            <label class="form-label d-block">取件狀態</label>
+
+                            <label class="switch">
+                                <input type="checkbox"
+                                       name="status"
+                                       value="done"
+                                       {% if user[9] == 'done' %} checked {% endif %}>
+                                <span class="slider"></span>
+                            </label>
+
+                            <span class="ms-2">
+                                {% if user[9] == 'done' %}
+                                    已取
+                                {% else %}
+                                    未取
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="col-12 text-end mt-3">
+                            <button type="submit" class="btn btn-primary px-4">
+                                更新資料
+                            </button>
+
+                            <a href="/" class="btn btn-secondary ms-2">
+                                返回
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
